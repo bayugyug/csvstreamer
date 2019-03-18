@@ -28,12 +28,12 @@ func TestHandlerMock(t *testing.T) {
 			idx++
 			batchrow = append(batchrow, p.Row)
 			if len(batchrow) > 1024 {
-				csv2.Save(true, batchrow...)
+				csv2.Append(batchrow...)
 				batchrow = [][]string{}
 			}
 		}
 		if len(batchrow) > 0 {
-			csv2.Save(true, batchrow...)
+			csv2.Append(batchrow...)
 		}
 		t.Log("csv-total:", idx)
 		if idx <= 0 {
@@ -66,12 +66,12 @@ func TestHandlerSimple(t *testing.T) {
 			idx++
 			batchrow = append(batchrow, p.Row)
 			if len(batchrow) > 1024 {
-				csv2.Save(true, batchrow...)
+				csv2.Append(batchrow...)
 				batchrow = [][]string{}
 			}
 		}
 		if len(batchrow) > 0 {
-			csv2.Save(true, batchrow...)
+			csv2.Append(batchrow...)
 		}
 		t.Log("csv-total:", idx)
 		if idx <= 0 {

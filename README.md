@@ -146,8 +146,7 @@
 
 				csv := csvstreamer.New("save-to-raw.csv")
 				for _, rec := range records {
-						//Save ( true<append>, rec<[]string>)
-						if ok, err := csv.Save(true, rec); !ok || err != nil {
+						if ok, err := csv.Append(rec); !ok || err != nil {
 								fmt.Println("ERROR:", err)
 								os.Exit(1)
 						}
