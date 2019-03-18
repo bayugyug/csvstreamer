@@ -42,10 +42,8 @@
 						fmt.Println("Oops, path parameter is invalid")
 						return
 				}
-				dirPath := strings.TrimSpace(os.Args[1])
-				fmt.Println("Path", dirPath, "#", len(os.Args))
-
-				csv := csvstreamer.New(dirPath)
+				csvFilename := strings.TrimSpace(os.Args[1])
+				csv := csvstreamer.New(csvFilename)
 				result, errc := csv.Simple()
 
 				for idx, p := range result {
@@ -88,13 +86,11 @@
 						fmt.Println("Oops, path parameter is invalid")
 						return
 				}
-				dirPath := strings.TrimSpace(os.Args[1])
-				fmt.Println("Path", dirPath, "#", len(os.Args))
-
+				csvFilename := strings.TrimSpace(os.Args[1])
 				done := make(chan struct{})
 				defer close(done)
 
-				csv := csvstreamer.New(dirPath)
+				csv := csvstreamer.New(csvFilename)
 				result, errc := csv.Parse(done)
 				idx := 0
 				for p := range result {
