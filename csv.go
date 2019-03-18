@@ -65,8 +65,8 @@ type CsvStreamer interface {
 	ToCsvStr(msg []string) string
 	Parse(done chan struct{}) (chan CsvResult, chan error)
 	Simple() ([]CsvResult, error)
-	Save(data ...[]string) (bool, error)
-	Append(data ...[]string) (bool, error)
+	Save(data ...[]string) error
+	Append(data ...[]string) error
 }
 
 //New the initializer
@@ -92,47 +92,47 @@ func (c *CsvStream) Version() string {
 }
 
 //Save the list of items into new CSV file
-func (c *CsvStream) Save(data ...[]string) (bool, error) {
+func (c *CsvStream) Save(data ...[]string) error {
 	fh, err := os.OpenFile(c.filename, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		return false, err
+		return err
 	}
 	//sanity
 	defer fh.Close()
 	w := csv.NewWriter(fh)
 	for _, record := range data {
 		if err := w.Write(record); err != nil {
-			return false, err
+			return err
 		}
 	}
 	// Write any buffered data to the underlying writer
 	w.Flush()
 	if err := w.Error(); err != nil {
-		return false, err
+		return err
 	}
-	return true, nil
+	return nil
 }
 
 //Append the list of items into old CSV file or new if not exists
-func (c *CsvStream) Append(data ...[]string) (bool, error) {
+func (c *CsvStream) Append(data ...[]string) error {
 	fh, err := os.OpenFile(c.filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		return false, err
+		return err
 	}
 	//sanity
 	defer fh.Close()
 	w := csv.NewWriter(fh)
 	for _, record := range data {
 		if err := w.Write(record); err != nil {
-			return false, err
+			return err
 		}
 	}
 	// Write any buffered data to the underlying writer
 	w.Flush()
 	if err := w.Error(); err != nil {
-		return false, err
+		return err
 	}
-	return true, nil
+	return nil
 }
 
 //Parse handler on parsing the CSV

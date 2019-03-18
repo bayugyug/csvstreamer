@@ -144,7 +144,7 @@
 						})
 				}
 				csv := csvstreamer.New("save-to-raw.csv")
-				if ok, err := csv.Append(records...); !ok || err != nil {
+				if err := csv.Append(records...); err != nil {
 					fmt.Println("ERROR:", err)
 					os.Exit(1)
 				}
