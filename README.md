@@ -48,10 +48,8 @@
 				csv := csvstreamer.New(dirPath)
 				result, errc := csv.Simple()
 
-				idx := 0
-				for _, p := range result {
-						idx++
-						fmt.Println(idx, "result:", p.Row)
+				for idx, p := range result {
+						fmt.Println(idx+1, "result:", p.Row)
 				}
 				//sanity check
 				if errc != nil {
