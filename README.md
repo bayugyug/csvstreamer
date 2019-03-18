@@ -144,10 +144,10 @@
 						})
 				}
 				csv := csvstreamer.New("save-to-raw.csv")
-			    if ok, err := csv.Append(records...); !ok || err != nil {
-				    fmt.Println("ERROR:", err)
+				if ok, err := csv.Append(records...); !ok || err != nil {
+					fmt.Println("ERROR:", err)
 					os.Exit(1)
-			    }
+				}
 				fmt.Println("Since", time.Since(start))
 				fmt.Println("Done")
 		}
