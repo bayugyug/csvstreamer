@@ -110,10 +110,7 @@ func (c *CsvStream) Save(data ...[]string) error {
 	}
 	// Write any buffered data to the underlying writer
 	w.Flush()
-	if err := w.Error(); err != nil {
-		return err
-	}
-	return nil
+	return w.Error()
 }
 
 //Append the list of items into old CSV file or new if not exists
@@ -132,10 +129,7 @@ func (c *CsvStream) Append(data ...[]string) error {
 	}
 	// Write any buffered data to the underlying writer
 	w.Flush()
-	if err := w.Error(); err != nil {
-		return err
-	}
-	return nil
+	return w.Error()
 }
 
 //AppendBatch the list of items into old CSV file or new if not exists
