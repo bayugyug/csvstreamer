@@ -26,6 +26,8 @@ const (
 	DefaultEmpty = "-"
 	//DefaultComma is the default separator of the elements for writing
 	DefaultComma = ","
+	//BatchDefault is the default batch for saving rows
+	BatchDefault = 1024
 )
 
 var (
@@ -67,6 +69,7 @@ type CsvStreamer interface {
 	Simple() ([]CsvResult, error)
 	Save(data ...[]string) error
 	Append(data ...[]string) error
+	AppendBatch(data [][]string, batch int) error
 }
 
 //New the initializer
@@ -131,6 +134,31 @@ func (c *CsvStream) Append(data ...[]string) error {
 	w.Flush()
 	if err := w.Error(); err != nil {
 		return err
+	}
+	return nil
+}
+
+//AppendBatch the list of items into old CSV file or new if not exists
+func (c *CsvStream) AppendBatch(data [][]string, batch int) error {
+	//ensure the batch#
+	if batch <= 0 {
+		batch = BatchDefault
+	}
+	var batches [][]string
+	for _, record := range data {
+		batches = append(batches, record)
+		if len(batches) >= batch {
+			if err := c.Append(batches...); err != nil {
+				return err
+			}
+			batches = [][]string{}
+		}
+	}
+	//extra
+	if len(batches) > 0 {
+		if err := c.Append(batches...); err != nil {
+			return err
+		}
 	}
 	return nil
 }

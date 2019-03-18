@@ -136,7 +136,7 @@
 				records := [][]string{
 						{"first_name", "last_name", "username"},
 				}
-				for i := 0; i <= 100; i++ {
+				for i := 0; i < 100; i++ {
 						records = append(records, []string{
 								fmt.Sprintf("first::%04d", i+1),
 								fmt.Sprintf("last::%04d", i+1),
@@ -153,6 +153,48 @@
 		}
 		 
 ```
+
+
+
+### Write into the CSV file (by batch)
+
+```go	    
+		package main
+
+		import (
+				"fmt"
+				"os"
+				"time"
+
+				"github.com/bayugyug/csvstreamer"
+		)
+
+		func main() {
+				start := time.Now()
+
+				//test data
+				records := [][]string{
+						{"first_name", "last_name", "username"},
+				}
+				for i := 0; i < 100; i++ {
+						records = append(records, []string{
+								fmt.Sprintf("bybatch::first::%04d", i+1),
+								fmt.Sprintf("bybatch::last::%04d", i+1),
+								fmt.Sprintf("bybatch::user::%04d", i+1),
+						})
+				}
+				csv := csvstreamer.New("save-to-raw.csv")
+				if err := csv.AppendBatch(records, 20); err != nil {
+					fmt.Println("ERROR:", err)
+					os.Exit(1)
+				}
+				fmt.Println("Since", time.Since(start))
+				fmt.Println("Done")
+		}
+		 
+```
+
+
 ### Notes
 
 	
