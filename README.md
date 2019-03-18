@@ -138,9 +138,9 @@
 				}
 				for i := 0; i <= 100; i++ {
 						records = append(records, []string{
-								fmt.Sprintf("first::04d%d", i+1),
-								fmt.Sprintf("last::04d%d", i+1),
-								fmt.Sprintf("user::04d%d", i+1),
+								fmt.Sprintf("first::%04d", i+1),
+								fmt.Sprintf("last::%04d", i+1),
+								fmt.Sprintf("user::%04d", i+1),
 						})
 				}
 
