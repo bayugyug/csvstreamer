@@ -170,11 +170,11 @@ func (c *CsvStream) Parse(done chan struct{}) (chan CsvResult, chan error) {
 			}
 			reader := csv.NewReader(bufio.NewReader(csvFile))
 			for {
-				line, error := reader.Read()
-				if error == io.EOF {
+				line, errd := reader.Read()
+				if errd == io.EOF {
 					break
-				} else if error != nil {
-					return error
+				} else if errd != nil {
+					return errd
 				}
 				wg.Add(1)
 				go func() { // HL
